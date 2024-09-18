@@ -2,6 +2,8 @@ const express = require('express');
 const connectDB = require('./config/db');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const cleanupRoutes = require('./routes/cleanupRoutes');
 const addTestData = require('./seed');
 
@@ -16,6 +18,8 @@ app.use(express.json());
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
+app.use('/users', userRoutes);
+app.use('/orders', orderRoutes);
 app.use('/', cleanupRoutes); // Cleanup routes
 
 app.get('/', (req, res) => {
