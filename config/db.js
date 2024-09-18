@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
-
-const mongoURI = 'mongodb+srv://user_garanti:F5Ca7TIzzTxZLV9w@cluster0.jcus0vv.mongodb.net/garanti-db-2';
+require('dotenv').config();
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongoURI);
-    console.log('MongoDB connected...');
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('MongoDB connected');
   } catch (err) {
-    console.error(err.message);
+    console.error('Error connecting to MongoDB:', err.message);
     process.exit(1);
   }
 };

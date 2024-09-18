@@ -8,16 +8,30 @@ const authRoutes = require('./routes/authRoutes');
 const cleanupRoutes = require('./routes/cleanupRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
 const addTestData = require('./seed');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
+// Veritabanı bağlantısı ve seed verileri
 connectDB().then(() => {
   addTestData();
 });
 
+// Middleware'ler
 app.use(express.json());
+app.use(helmet());
 
+// Rate limiting middleware
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 dakika
+  max: 100 // 15 dakika içinde 100 istek
+});
+app.use(apiLimiter);
+
+// Route'lar
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
